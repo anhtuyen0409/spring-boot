@@ -1,6 +1,20 @@
 package com.nguyenanhtuyen.demo.entities;
 
-public class Employee {
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "employee")
+public class Employee implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	private Long empId;
 	private String empNo;
@@ -17,6 +31,9 @@ public class Employee {
 		this.empName = empName;
 	}
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "empId", unique = true, nullable = false)
 	public Long getEmpId() {
 		return empId;
 	}
@@ -25,6 +42,7 @@ public class Employee {
 		this.empId = empId;
 	}
 
+	@Column(name = "empNo", unique = true, nullable = false, length = 255)
 	public String getEmpNo() {
 		return empNo;
 	}
@@ -33,6 +51,7 @@ public class Employee {
 		this.empNo = empNo;
 	}
 
+	@Column(name = "empName", unique = true, nullable = false, length = 255)
 	public String getEmpName() {
 		return empName;
 	}

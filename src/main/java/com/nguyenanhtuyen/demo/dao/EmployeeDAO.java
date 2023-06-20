@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.nguyenanhtuyen.demo.entities.Employee;
@@ -14,63 +17,41 @@ import com.nguyenanhtuyen.demo.entities.Employee;
 @Repository
 public class EmployeeDAO {
 
-	private static final Map<Long, Employee> empMap = new HashMap<Long, Employee>();
-
-	static {
-		initEmps();
-	}
-
-	private static void initEmps() {
-		Employee emp1 = new Employee(1L, "E01", "Test1");
-		Employee emp2 = new Employee(2L, "E02", "Test2");
-		Employee emp3 = new Employee(3L, "E03", "Test3");
-
-		empMap.put(emp1.getEmpId(), emp1);
-		empMap.put(emp2.getEmpId(), emp2);
-		empMap.put(emp3.getEmpId(), emp3);
-	}
-
-	public Long getMaxEmpId() {
-		Set<Long> keys = empMap.keySet();
-		Long max = 0L;
-		for (Long key : keys) {
-			if (key > max) {
-				max = key;
-			}
-		}
-		return max;
-	}
-
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	public Employee getEmployee(Long empId) {
-		return empMap.get(empId);
+		Session session = sessionFactory.getCurrentSession();
+		Employee emp = session.get(Employee.class, empId);
+		return emp;
 	}
 
 	public Employee addEmployee(Employee empForm) {
-		Long empId = this.getMaxEmpId() + 1;
-		empForm.setEmpId(empId);
-
-		empMap.put(empForm.getEmpId(), empForm);
+		Session session = sessionFactory.getCurrentSession();
+		session.save(empForm);
 		return empForm;
 	}
 
 	public Employee updateEmployee(Employee empForm) {
-		Employee empUpdate = this.getEmployee(empForm.getEmpId());
-		if (empUpdate != null) {
-			empUpdate.setEmpNo(empForm.getEmpNo());
-			empUpdate.setEmpName(empForm.getEmpName());
-		}
-		return empUpdate;
+		Session session = sessionFactory.getCurrentSession();
+		Employee emp = session.get(Employee.class, empForm.getEmpId());
+		emp.setEmpNo(empForm.getEmpNo());
+		emp.setEmpName(empForm.getEmpName());
+		session.update(emp);
+		return emp;
 	}
 
 	public void deleteEmployee(Long empId) {
-		empMap.remove(empId);
+		Session session = sessionFactory.getCurrentSession();
+		Employee emp = session.get(Employee.class, empId);
+		session.delete(emp);
 	}
 
 	public List<Employee> getAllEmployees() {
-		Collection<Employee> c = empMap.values();
-		List<Employee> list = new ArrayList<Employee>();
-		list.addAll(c);
-		return list;
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Employee> listEmployee = session.createQuery(" FROM " + Employee.class.getName()).list();
+		return listEmployee;
 	}
 	
 }
