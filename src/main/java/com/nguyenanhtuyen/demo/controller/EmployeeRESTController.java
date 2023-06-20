@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,6 +43,19 @@ public class EmployeeRESTController {
 	@ResponseBody
 	public Employee getEmployee(@PathVariable("empId") Long empId) {
 		return employeeService.getEmployee(empId);
+	}
+	
+	/**
+	 * update employee
+	 * @param empForm
+	 * @return
+	 */
+	@RequestMapping(value = "/employees", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
+	@ResponseBody
+	public Employee addEmployee(@RequestBody Employee empForm) {
+		System.out.println("(Server side) Creating employee with empNo: " + empForm.getEmpNo());
+		return employeeService.addEmployee(empForm);
 	}
 	
 }
