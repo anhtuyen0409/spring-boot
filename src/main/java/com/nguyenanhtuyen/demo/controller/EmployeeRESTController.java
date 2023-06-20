@@ -71,4 +71,18 @@ public class EmployeeRESTController {
 		return employeeService.updateEmployee(empForm);
 	}
 	
+	/**
+	 * delete employee
+	 * @param empId
+	 * @return
+	 */
+	@RequestMapping(value = "/employees/{empId}", method = RequestMethod.DELETE, produces = { 
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseBody
+	public String deleteEmployee(@PathVariable("empId") Long empId) {
+		System.out.println("(Server side) Delete employee with Id: " + empId);
+		employeeService.deleteEmployee(empId);
+		return "Delete success!";
+	}
+	
 }
