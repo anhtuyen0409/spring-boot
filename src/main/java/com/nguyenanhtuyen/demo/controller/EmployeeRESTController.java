@@ -25,8 +25,8 @@ public class EmployeeRESTController {
 	 * list all of employees
 	 * @return
 	 */
-	@RequestMapping(value = "/employees", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE })
+	@RequestMapping(value = "/employees", method = RequestMethod.GET, produces = { 
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ResponseBody
 	public List<Employee> getEmployees() {
 		List<Employee> list = employeeService.getAllEmployees();
@@ -46,16 +46,29 @@ public class EmployeeRESTController {
 	}
 	
 	/**
-	 * update employee
+	 * add employee
 	 * @param empForm
 	 * @return
 	 */
-	@RequestMapping(value = "/employees", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE })
+	@RequestMapping(value = "/employees", method = RequestMethod.POST, produces = { 
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ResponseBody
 	public Employee addEmployee(@RequestBody Employee empForm) {
 		System.out.println("(Server side) Creating employee with empNo: " + empForm.getEmpNo());
 		return employeeService.addEmployee(empForm);
+	}
+	
+	/**
+	 * update employee
+	 * @param empForm
+	 * @return
+	 */
+	@RequestMapping(value = "/employees", method = RequestMethod.PUT, produces = { 
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseBody
+	public Employee updateEmployee(@RequestBody Employee empForm) {
+		System.out.println("(Server side) Update employee with Id: " + empForm.getEmpId());
+		return employeeService.updateEmployee(empForm);
 	}
 	
 }
