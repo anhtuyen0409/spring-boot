@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Demo</title>
-</head>
-<body>
-	<h1>Welcome to my first spring boot demo.</h1>
-</body>
+<html xmlns:th="http:www.thymeleaf.org">
+	<head>
+		<title>Demo AngularJS</title>
+		<script th:src="@{/angular.min.js}"></script>
+		<script th:src="@{/main.js}"></script>
+		<link th:href="@{/main.css}" rel="stylesheet" />
+	</head>
+	<body ng-app="EmployeeManagement" ng-controller="EmployeeController">
+		<h1>
+			Demo CRUD using Spring Boot + RESTful API + AngularJS
+		</h1>
+		<form ng-submit="submitEmployee()">
+			<table border="0">
+				<tr>
+					<td>Emp Id</td>
+					<td>{{employeeForm.empId}}</td>
+				</tr>
+				<tr>
+					<td>Emp No</td>
+					<td><input type="text" ng-model="employeeForm.empNo" /></td>
+				</tr>
+				<tr>
+					<td>Emp Name</td>
+					<td><input type="text" ng-model="employeeForm.empName" /></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="submit" value="submit" class="blue-button" />
+					</td>
+				</tr>
+			</table>
+		</form>
+		<br/>
+		<a class="create-button" ng-click="createEmployee()">Create Employee</a>
+		<table border="1">
+			<tr>
+				<th>Emp Id</th>
+				<th>Emp No</th>
+				<th>Emp Name</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+			<!-- $scope.employees -->
+			<tr ng-repeat="employee in employees">
+				<td>{{employee.empId}}</td>
+				<td>{{employee.empNo}}</td>
+				<td>{{employee.empName}}</td>
+				<td>
+					<a ng-click="editEmployee(employee)" class="edit-button">Edit</a>
+				</td>
+				<td>
+					<a ng-click="deleteEmployee(employee)" class="delete-button">Edit</a>
+				</td>
+			</tr>
+		</table>
+	</body>
 </html>
