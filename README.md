@@ -3,3 +3,4 @@
 - Java
 - Spring Boot
 - Spring data jpa
+- AngularJS
